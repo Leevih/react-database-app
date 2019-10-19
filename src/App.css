@@ -1,0 +1,71 @@
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.customer-form-item {
+  margin: 1rem;
+}
+
+.profile-dialog {
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.details-form {
+  text-align: center;
+}
+
+.add-training-form {
+  text-align: center;
+  margin: 2rem;
+}
+
+.delete-user {
+  float: right;
+}
+
+.form-input {
+  margin: 1rem;
+}
+
+.training-button {
+  float: right;
+}
+
+.open-form-button {
+  float: right;
+  margin-left: -2rem;
+}
+
+.open-calendar {
+  float: right;
+}
+
+.table-container {
+  max-width: 80%;
+  margin-left: 10%;
+  text-align: center;
+}

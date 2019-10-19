@@ -1,0 +1,55 @@
+import React, { useEffect, useReducer } from 'react';
+
+import CustomerTable from './components/CustomerTable.js';
+import CalendarComponent from './components/CalendarComponent.js';
+import customerService from './services/customerService.js';
+import trainingService from './services/trainingService.js';
+import { AppProvider } from './AppContext.js';
+import './App.css';
+import appReducer from './appReducer.js';
+
+const initialState = {
+  customers: [],
+  trainings: [],
+  currentCustomer: {},
+  currentTrainings: [],
+}
+
+
+const App = () => {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+
+  useEffect(() => {
+    customerService
+      .getAll()
+      .then(res => {
+        dispatch({ type: 'GET_CUSTOMERS', payload: res.data.content })
+      })
+      .catch(error => {
+        //console.log(error);
+      })
+  }, [])
+
+  useEffect(() => {
+    trainingService
+      .getAll()
+      .then(res => {
+        dispatch({ type: 'GET_TRAININGS', payload: res.data.content })
+      })
+      .catch(error => {
+        //console.log(error);
+      })
+  }, [])
+
+  return (
+    <div className="container">  
+      <AppProvider value={{ state, dispatch }}>
+        <CustomerTable customers={state.allCustomers} />
+        <CalendarComponent trainings={state.trainigs} />
+      </AppProvider>
+    </div>
+
+  )
+}
+
+export default App;

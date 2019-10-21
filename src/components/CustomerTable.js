@@ -2,35 +2,45 @@ import React, { useContext, useState } from 'react';
 import AddCustomerForm from './AddCustomerForm.js';
 import { MDBDataTable } from 'mdbreact';
 import AppContext from '../AppContext.js';
-import { Button, makeStyles, Modal, Backdrop, Fade } from '@material-ui/core/';
+import { Button } from '@material-ui/core/';
 import CustomerProfile from './CustomerProfile.js';
+import { red } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
+import Icon from '@material-ui/core/Icon'
 
 const useStyles = makeStyles(theme => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  button: {
+    margin: theme.spacing(1),
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  root: {
+    '& > span': {
+      margin: theme.spacing(2),
+    },
+  },
+  iconHover: {
+    '&:hover': {
+      color: red[800],
+    },
   },
 }));
 
+
 const CustomerTable = () => {
-  const app = useContext(AppContext);
   const classes = useStyles();
-  const [ openForm, setOpenForm ] = useState(false);
-  const [ openProfile, setOpenProfile ] = useState(false);
+  const app = useContext(AppContext);
+  const [openForm, setOpenForm] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
 
   const handleFormChange = () => {
     setOpenForm(!openForm);
   }
 
+  const validateCustomerList = () => {
+    return app.state.customers.filter(item => 'firstname' in item)
+  }
+
   const rows = () => {
-    if (app.state.customers !== undefined) {
+    if (validateCustomerList !== undefined) {
       return app.state.customers.map(customer => ({
         name: customer.firstname + ' ' + customer.lastname,
         phone: customer.phone,
@@ -72,43 +82,33 @@ const CustomerTable = () => {
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 white">
       <MDBDataTable
-        striped
+        /* striped */
         bordered
         small
         responsive
         data={data}
       />
       <div>
-      <Button variant="contained" onClick={handleFormChange}>
-          Add a customer
-      </Button>
+        <div className="some-buttons">
+          <Button color="primary" variant="contained" onClick={handleFormChange} className={classes.button}>
+            Add a customer
+          </Button>
+          <Button 
+          color="primary"
+          variant="contained" 
+          onClick={() => app.dispatch({ type: 'SET_CALENDAR' })} className={classes.button}>
+            Open calendar
+          </Button>
+{/*           <Icon className={classes.iconHover} color="error" style={{ fontSize: 30 }}>
+        add_circle
+      </Icon> */}
+        </div>
 
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          className={classes.modal}
-          open={openForm}
-          onClose={handleFormChange}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}>
 
-          <Fade in={openForm}>
-            <div className={classes.paper}>
-              <h2 id="transition-modal-title">Fill this form to add another customer</h2>
-              <AddCustomerForm />
-              <Button variant="contained" color="secondary" onClick={handleFormChange}>
-                  Cancel
-              </Button>
-            </div>
-          </Fade>
-        </Modal>
       </div>
-
+      {openForm ? <AddCustomerForm openForm={openForm} setOpenForm={setOpenForm} /> : null}
       {openProfile ? <CustomerProfile openProfile={openProfile} setOpenProfile={setOpenProfile} /> : null}
     </div>
   )

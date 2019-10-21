@@ -13,6 +13,7 @@ const initialState = {
   trainings: [],
   currentCustomer: {},
   currentTrainings: [],
+  calendar: false,
 }
 
 

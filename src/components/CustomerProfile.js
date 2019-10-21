@@ -1,11 +1,14 @@
 import React, { useContext, useEffect } from 'react';
-import { Button, Input } from '@material-ui/core/';
+import { Button, Input, InputLabel } from '@material-ui/core/';
 import useForm from '../utilities/useForm.js';
 import AppContext from '../AppContext.js';
 import customerService from '../services/customerService.js';
 import trainingService from '../services/trainingService.js';
 import { MDBDataTable } from 'mdbreact';
 import moment from 'moment';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
 import AddNewTrainingForm from './AddNewTrainingForm.js'
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -46,7 +49,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 }
 
             })
-    }, [app, current])
+    }, [app, current.links])
 
     const deleteTraining = (training) => {
         trainingService
@@ -62,7 +65,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 activity: training.activity,
                 duration: training.duration,
                 date: moment(training.date).format('DD/MM/YYYY HH:mm'),
-                delete: <Button variant="contained" color="secondary" onClick={() => deleteTraining(training)}>Delete</Button>
+            delete: <Button variant="contained" color="secondary" onClick={() => deleteTraining(training)} startIcon={<DeleteIcon />}>Delete</Button>
             }))
         }
     }
@@ -73,6 +76,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 .remove(current.links[0].href).catch(error => {
                     console.log(error);
                 })
+            setOpenProfile(false)
             app.dispatch({ type: 'DELETE_CUSTOMER', payload: current })
         }
     }
@@ -172,6 +176,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                                     className="customer-form-item"
                                 />
                                 <Button
+                                    startIcon={<SaveIcon />}
                                     variant="contained"
                                     color="primary"
                                     className="customer-form-item"
@@ -189,13 +194,16 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                                 responsive
                                 data={data}
                             />
-                        </div>
-                        <Button variant="contained" color="secondary" onClick={deleteCustomer} className="delete-user">
+                        <div className="profile-buttons">
+                        <Button variant="contained" color="secondary" onClick={deleteCustomer} className="delete-user" startIcon={<DeleteIcon />}>
                             Delete this user
                         </Button>
                         <Button variant="contained" color="primary" onClick={changeModal} className="close-button">
                             Close
                         </Button>
+                        </div>
+                        </div>
+
                 </DialogContent>
             </Dialog>
         </div>

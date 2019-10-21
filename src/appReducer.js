@@ -1,6 +1,13 @@
 
   const appReducer = (state, action) => {
-    switch (action.type) {
+    switch (action.type) {  
+      case 'SET_CALENDAR':
+        {
+          return {
+          ...state,
+          calendar: !state.calendar
+          }
+        } 
       case 'GET_CUSTOMERS':
         {
           return {

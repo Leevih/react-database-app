@@ -67,5 +67,52 @@
 .table-container {
   max-width: 80%;
   margin-left: 10%;
+  text-align: left;
+}
+
+.navigation {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li div {
+  display: block;
+  color: white;
   text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav-item {
+  float: left;
+  margin-left: 50%;
+}
+
+li div:hover {
+  background-color: #111;
+}
+
+body {
+  background-color: rgba(1, 1, 1, 0.85);
+}
+
+.white {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 5px;
+}
+
+tr {
+  background-color: white;  
+}
+
+.some-buttons {
+  margin: 1rem;
+}
+
+.profile-buttons {
 }

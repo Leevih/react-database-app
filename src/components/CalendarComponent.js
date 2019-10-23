@@ -52,7 +52,7 @@ const CalendarComponent = () => {
         </AppBar>
         <FullCalendar
           defaultView="dayGridMonth"
-          plugins={[dayGridPlugin]}
+          plugins={[ dayGridPlugin]}
           events={renderItems()} />
       </Dialog>
     </div>

@@ -6,7 +6,6 @@ import { Button } from '@material-ui/core/';
 import CustomerProfile from './CustomerProfile.js';
 import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import Icon from '@material-ui/core/Icon'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -83,7 +82,9 @@ const CustomerTable = () => {
 
   return (
     <div className="container mt-5 white">
+      
       <MDBDataTable
+        className="customers"
         /* striped */
         bordered
         small

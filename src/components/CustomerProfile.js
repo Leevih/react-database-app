@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { Button, Input, InputLabel } from '@material-ui/core/';
+import { Button, TextField } from '@material-ui/core/';
 import useForm from '../utilities/useForm.js';
 import AppContext from '../AppContext.js';
 import customerService from '../services/customerService.js';
 import trainingService from '../services/trainingService.js';
 import { MDBDataTable } from 'mdbreact';
 import moment from 'moment';
-import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import AddNewTrainingForm from './AddNewTrainingForm.js'
@@ -23,11 +22,14 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
     }
 
     const handleSave = () => {
-        customerService
+        if(window.confirm("are you sure you want to save the changes?")) {
+            customerService
             .update(getItemId(current), { ...current, ...values })
             .then(res => {
                 app.dispatch({ type: 'UPDATE_CUSTOMER', payload: res.data })
             })
+        }
+
     }
 
     const getItemId = (item) => {
@@ -65,7 +67,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 activity: training.activity,
                 duration: training.duration,
                 date: moment(training.date).format('DD/MM/YYYY HH:mm'),
-            delete: <Button variant="contained" color="secondary" onClick={() => deleteTraining(training)} startIcon={<DeleteIcon />}>Delete</Button>
+            delete: <Button variant="contained" size="small" color="secondary" onClick={() => deleteTraining(training)} startIcon={<DeleteIcon />}>Delete</Button>
             }))
         }
     }
@@ -78,6 +80,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 })
             setOpenProfile(false)
             app.dispatch({ type: 'DELETE_CUSTOMER', payload: current })
+            app.dispatch({ type: 'SET_MESSAGE', payload: { type: 'success', content: `Customer by the name of ${current.firstname, ' ', current.lastname} has been deleted`, open: true } });
         }
     }
 
@@ -117,74 +120,81 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 maxWidth={'md'}>
                 <DialogContent>
                         <h3 id="transition-modal-title">Profile Page for {current.firstname + ' ' + current.lastname}</h3>
-                        <div className="details-form">
-                            <form>
-                                <Input
+                      <div className="details-container">
+                            <form autoComplete="off">
+                                <TextField
+                                    className="customer-form-item"
                                     id="standard-name"
-                                    value={values.firstname || current.firstname}
-                                    onChange={handleChange}
+                                    label={current.firstname}
                                     name="firstname"
-                                    placeholder="First name"
-                                    className="customer-form-item"
-                                />
-                                <Input
-                                    id="standard-name"
-                                    value={values.lastname || current.lastname}
+                                    value={values.firstname || ''}
                                     onChange={handleChange}
+                                    margin="normal"
+                                />&nbsp;&nbsp;&nbsp;&nbsp;
+                                <TextField
+                                    className="customer-form-item"
+                                    id="standard-name"
+                                    label={current.lastname}
                                     name="lastname"
-                                    placeholder="Last name"
-                                    className="customer-form-item"
-                                /><br />
-                                <Input
-                                    id="standard-name"
-                                    value={values.phone || current.phone}
+                                    value={values.lastname || ''}
                                     onChange={handleChange}
+                                    margin="normal"
+                                /><br/>
+                                <TextField
+                                    className="customer-form-item"
+                                    id="standard-name"
+                                    label={current.phone}
                                     name="phone"
-                                    placeholder="Phone"
-                                    className="customer-form-item"
-                                />
-                                <Input
-                                    id="standard-name"
-                                    value={values.email || current.email}
+                                    value={values.phone || ''}
                                     onChange={handleChange}
+                                    margin="normal"
+                                />&nbsp;&nbsp;&nbsp;&nbsp;
+                                <TextField
+                                    className="customer-form-item"
+                                    id="standard-name"
+                                    label={current.email}
                                     name="email"
-                                    placeholder="Email"
-                                    className="customer-form-item"
-                                /><br />
-                                <Input
-                                    id="standard-name"
-                                    value={values.streetaddress || current.streetaddress}
+                                    value={values.email || ''}
                                     onChange={handleChange}
+                                    margin="normal"
+                                /><br/>
+                                <TextField
+                                    className="customer-form-item"
+                                    id="standard-name"
+                                    label={current.streetaddress}
                                     name="streetaddress"
-                                    placeholder="Street address"
-                                    className="customer-form-item"
-                                />
-                                <Input
-                                    id="standard-name"
-                                    value={values.city || current.city}
+                                    value={values.streetaddress || ''}
                                     onChange={handleChange}
+                                    margin="normal"
+                                />&nbsp;&nbsp;&nbsp;&nbsp;
+                                <TextField
+                                    className="customer-form-item"
+                                    id="standard-name"
+                                    label={current.city}
                                     name="city"
-                                    placeholder="City"
-                                    className="customer-form-item"
-                                /><br />
-                                <Input
-                                    id="standard-name"
-                                    value={values.postcode || current.postcode}
+                                    value={values.city || ''}
                                     onChange={handleChange}
-                                    name="postcode"
-                                    placeholder="Post code"
+                                    margin="normal"
+                                /><br/>
+                                <TextField
                                     className="customer-form-item"
-                                />
+                                    id="standard-name"
+                                    label={current.postcode}
+                                    name="postcode"
+                                    value={values.postcode || ''}
+                                    onChange={handleChange}
+                                    margin="normal"
+                                />&nbsp;&nbsp;&nbsp;&nbsp;
                                 <Button
                                     startIcon={<SaveIcon />}
                                     variant="contained"
                                     color="primary"
-                                    className="customer-form-item"
+                                    className=""
                                     onClick={handleSave}>
                                     Save
                                 </Button>
                             </form>
-                        </div>
+                        </div>  
                         <div className="table-container">
                         <AddNewTrainingForm />
                             <MDBDataTable
@@ -203,7 +213,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                         </Button>
                         </div>
                         </div>
-
+                        <br/>
                 </DialogContent>
             </Dialog>
         </div>

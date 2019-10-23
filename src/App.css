@@ -24,18 +24,21 @@
   color: #09d3ac;
 }
 
-.customer-form-item {
-  margin: 1rem;
-}
-
-.profile-dialog {
+.details-container {
+  display: block;
+  text-align: center;
   align-content: center;
-  justify-content: center;
-  text-align: center;
 }
 
-.details-form {
-  text-align: center;
+.customer-form-item {
+  background-color: rgb(216, 216, 216, 0.05);
+  border-radius: 0.33rem;
+  width: 10rem;
+  align-content: center;
+}
+
+.savebtn {
+  margin-top: 200px;
 }
 
 .add-training-form {
@@ -70,13 +73,6 @@
   text-align: left;
 }
 
-.navigation {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
 
 li div {
   display: block;
@@ -84,15 +80,6 @@ li div {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-}
-
-.nav-item {
-  float: left;
-  margin-left: 50%;
-}
-
-li div:hover {
-  background-color: #111;
 }
 
 body {
@@ -105,8 +92,7 @@ body {
   border-radius: 0.25rem;
   box-shadow: 5px;
 }
-
-tr {
+.customers tbody {
   background-color: white;  
 }
 
@@ -114,5 +100,3 @@ tr {
   margin: 1rem;
 }
 
-.profile-buttons {
-}

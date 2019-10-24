@@ -38,7 +38,13 @@
 }
 
 .savebtn {
-  margin-top: 200px;
+  position: relative;
+  top: 1.5rem;
+}
+
+.more-to-left {
+  position: relative;
+  right: 2.48rem;
 }
 
 .add-training-form {

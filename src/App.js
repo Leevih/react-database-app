@@ -16,6 +16,7 @@ const initialState = {
   currentTrainings: [],
   calendar: false,
   message: { type: 'info', content: 'if you see this message, it means i have broken something,', open: false },
+  confirm: { open: false }
 }
 
 

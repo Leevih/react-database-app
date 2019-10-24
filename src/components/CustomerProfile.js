@@ -17,6 +17,8 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
     const [values, handleChange] = useForm();
     const current = app.state.currentCustomer;
 
+    const isConfirmed = '';
+
     const changeModal = () => {
         setOpenProfile(!openProfile);
     }
@@ -29,7 +31,6 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 app.dispatch({ type: 'UPDATE_CUSTOMER', payload: res.data })
             })
         }
-
     }
 
     const getItemId = (item) => {
@@ -49,7 +50,6 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 } else {
                     app.dispatch({ type: 'SET_CURRENT_TRAININGS', payload: [] })
                 }
-
             })
     }, [app, current.links])
 
@@ -60,14 +60,14 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 app.dispatch({ type: 'DELETE_TRAINING', payload: training })
             })
     }
-
+//confirm(handleDelete, { description: 'This action is permanent!' })delete: <Button variant="contained" size="small" color="secondary" onClick={() => deleteTraining(training)} startIcon={<DeleteIcon />}>Delete</Button>
     const rows = () => {
         if (app.state.currentTrainings !== undefined) {
             return app.state.currentTrainings.map(training => ({
                 activity: training.activity,
                 duration: training.duration,
                 date: moment(training.date).format('DD/MM/YYYY HH:mm'),
-            delete: <Button variant="contained" size="small" color="secondary" onClick={() => deleteTraining(training)} startIcon={<DeleteIcon />}>Delete</Button>
+                delete: <Button variant="contained" size="small" color="secondary" onClick={() => deleteTraining(training)} startIcon={<DeleteIcon />}>Delete</Button>
             }))
         }
     }
@@ -119,7 +119,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                 fullWidth={true}
                 maxWidth={'md'}>
                 <DialogContent>
-                        <h3 id="transition-modal-title">Profile Page for {current.firstname + ' ' + current.lastname}</h3>
+                    <h3 id="transition-modal-title">Profile Page for {current.firstname + ' ' + current.lastname}</h3>
                       <div className="details-container">
                             <form autoComplete="off">
                                 <TextField
@@ -177,7 +177,7 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                                     margin="normal"
                                 /><br/>
                                 <TextField
-                                    className="customer-form-item"
+                                    className="customer-form-item more-to-left"
                                     id="standard-name"
                                     label={current.postcode}
                                     name="postcode"
@@ -189,7 +189,8 @@ const CustomerProfile = ({ openProfile, setOpenProfile }) => {
                                     startIcon={<SaveIcon />}
                                     variant="contained"
                                     color="primary"
-                                    className=""
+                                    className="savebtn"
+                                    size="small"
                                     onClick={handleSave}>
                                     Save
                                 </Button>

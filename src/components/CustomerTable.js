@@ -82,7 +82,6 @@ const CustomerTable = () => {
 
   return (
     <div className="container mt-5 white">
-      
       <MDBDataTable
         className="customers"
         /* striped */

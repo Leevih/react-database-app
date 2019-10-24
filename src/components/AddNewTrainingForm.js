@@ -16,8 +16,27 @@ const AddNewTrainingForm = () => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
+    //another ugly helper function to prevent user from entering null values.
+    //this problem would have been avoided if I just learned how to submit 
+    //form data in a proper manner. 
+    const validateForm = () => {
+        if(Object.values(newTraining)){
+            if(Object.values(newTraining).length !== 2) {
+                return false;
+            } else if (Object.values(newTraining).find(item => item.length === 0)) {
+                return false;
+            } else {
+                console.log('success');
+                return true;
+            }
+        }else {
+            return false
+        }
+    }
+    
     const submitNewTraining = () => {
-        trainingService
+        if(validateForm() === true) {
+            trainingService
             .create({
                 date: selectedDate,
                 activity: newTraining.activity,
@@ -28,6 +47,11 @@ const AddNewTrainingForm = () => {
                 app.dispatch({ type: 'ADD_TRAINING', payload: res.data });
                 handleNewTraining('cleanup');
             })
+            app.dispatch({ type: 'SET_MESSAGE', payload: { type: 'success', content: 'A New appointment has been succesfully issued', open: true } });
+        } else {
+            app.dispatch({ type: 'SET_MESSAGE', payload: { type: 'error', content: 'Please do not leave empty fields to the form', open: true } });
+        }
+
     }
 
     const handleDateChange = (date) => {
@@ -36,20 +60,20 @@ const AddNewTrainingForm = () => {
     }
 
     const handleClick = event => {
-      setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
-  
+
     const handleClose = () => {
-      setAnchorEl(null);
+        setAnchorEl(null);
     };
 
     return (
         <div className="add-training-form">
-            <Button 
-            aria-describedby={id} 
-            variant="contained" 
-            onClick={handleClick}
-            className="open-form-button">
+            <Button
+                aria-describedby={id}
+                variant="contained"
+                onClick={handleClick}
+                className="open-form-button">
                 Add another training
             </Button>
             <Popover
@@ -67,42 +91,43 @@ const AddNewTrainingForm = () => {
                 }}
             >
                 <form>
-                <Input
-                    id="standard-name"
-                    label="Activity"
-                    name="activity"
-                    placeholder="Activity"
-                    className="form-input"
-                    value={newTraining.activity || ''}
-                    onChange={handleNewTraining}
-                />
-                <Input
-                    id="standard-name"
-                    label="Duration"
-                    name="duration"
-                    placeholder="Duration"
-                    className="form-input"
-                    value={newTraining.duration || ''}
-                    onChange={handleNewTraining}
-                /><br />
-                <div className="form-input">
-                    <MuiPickersUtilsProvider utils={MomentUtils} >
-                        <DateTimePicker
-                            autoOk
-                            ampm={false}
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                        />
-                    </MuiPickersUtilsProvider>
-                    <Button
-                        className="training-button"
-                        variant="contained"
-                        color="primary"
-                        onClick={submitNewTraining}>
-                        Send
+                    <Input
+                        id="standard-name"
+                        label="Activity"
+                        name="activity"
+                        placeholder="Activity"
+                        className="form-input"
+                        value={newTraining.activity || ''}
+                        onChange={handleNewTraining}
+                    />
+                    <Input
+                        id="standard-name"
+                        label="Duration"
+                        type="number"
+                        name="duration"
+                        placeholder="Duration"
+                        className="form-input"
+                        value={newTraining.duration || ''}
+                        onChange={handleNewTraining}
+                    /><br />
+                    <div className="form-input">
+                        <MuiPickersUtilsProvider utils={MomentUtils} >
+                            <DateTimePicker
+                                autoOk
+                                ampm={false}
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                            />
+                        </MuiPickersUtilsProvider>
+                        <Button
+                            className="training-button"
+                            variant="contained"
+                            color="primary"
+                            onClick={submitNewTraining}>
+                            Send
                 </Button>
-                </div>
-            </form>
+                    </div>
+                </form>
             </Popover>
         </div>
     )
